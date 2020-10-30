@@ -1,0 +1,17 @@
+{
+    "id": "1",
+	"title": "Teste Post",
+	"description": "Teste de post do servidor rest",
+	"patientAge": 20,
+	"patientHeight": 20.0,
+	"patientWeight": 20.0,
+	"patientPatology": "None",
+	"patientSessionNumber": 1,
+	"doctorName": "Totoco",
+	"doctorRegistryNumber": 13,
+	"medicalClinic": "Culíniica",
+	"sessionDuration": 60.0,
+	"numberOfRegisters": 1,
+	"artIndexPattern": "a1",
+	"sessionData": 20
+}
