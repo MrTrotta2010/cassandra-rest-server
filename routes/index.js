@@ -81,8 +81,8 @@ router.post('/post', async(req,res) => {
 		!!patientAge && !!patientHeight && !!patientWeight && !!patientSessionNumber && !!sessionDuration &&
 		!!numberOfRegisters && !!artIndexPattern && !!sessionData) {
 		
-		var insert = "INSERT INTO sessions(id,title,description,patientAge,patientHeight,patientWeight,patientPatology,patientSessionNumber,doctorName,doctorRegistryNumber,medicalClinic,sessionDuration,numberOfRegisters,artIndexPattern,sessionData) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,textAsBlob(?))";
-		var params = [id,title,description,patientAge,patientHeight,patientWeight,patientPatology,patientSessionNumber,doctorName,doctorRegistryNumber,medicalClinic,sessionDuration,numberOfRegisters,artIndexPattern,sessionData];
+		var insert = "INSERT INTO sessions(id,title,description,mainComplainthistoryOfCurrentDesease,historyOfPastDesease,diagnosis,relatedDeseases,medications,physicalEvaluation,patientAge,patientHeight,patientWeight,patientSessionNumber,sessionDuration,numberOfRegisters,artIndexPattern,sessionData) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,textAsBlob(?))";
+		var params = [id,title,description,mainComplainthistoryOfCurrentDesease,historyOfPastDesease,diagnosis,relatedDeseases,medications,physicalEvaluation,patientAge,patientHeight,patientWeight,patientSessionNumber,sessionDuration,numberOfRegisters,artIndexPattern,sessionData];
 		
 		connection.execute(insert, params, { prepare: true }, function(err, rows) {
 			if(!!err){
@@ -124,8 +124,8 @@ router.patch('/patch/:id', async(req,res) => {
 		!!patientAge && !!patientHeight && !!patientWeight && !!patientSessionNumber && !!sessionDuration &&
 		!!numberOfRegisters && !!artIndexPattern && !!sessionData) {
 
-		var update = "UPDATE sessions SET title=?,description=?,patientAge=?,patientHeight=?,patientWeight=?,patientPatology=?,patientSessionNumber=?,doctorName=?,doctorRegistryNumber=?,medicalClinic=?,sessionDuration=?,numberOfRegisters=?,artIndexPattern=?,sessionData=textAsBlob(?) WHERE id=?";
-		var params = [title,description,patientAge,patientHeight,patientWeight,patientPatology,patientSessionNumber,doctorName,doctorRegistryNumber,medicalClinic,sessionDuration,numberOfRegisters,artIndexPattern,sessionData,id];
+		var update = "UPDATE sessions SET title=?,description=?,mainComplaint=?,historyOfCurrentDesease=?,historyOfPastDesease=?,diagnosis=?,relatedDeseases=?,medications=?,physicalEvaluation=?,patientAge=?,patientHeight=?,patientWeight=?,patientSessionNumber=?,sessionDuration=?,numberOfRegisters=?,artIndexPattern=?,sessionData=textAsBlob(?) WHERE id=?";
+		var params = [id,title,description,mainComplainthistoryOfCurrentDesease,historyOfPastDesease,diagnosis,relatedDeseases,medications,physicalEvaluation,patientAge,patientHeight,patientWeight,patientSessionNumber,sessionDuration,numberOfRegisters,artIndexPattern,sessionData];
 		
 		connection.execute(update, params, { prepare: true }, function(err, rows){
 			if(!!err){
