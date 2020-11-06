@@ -17,5 +17,5 @@ CREATE TABLE sessions(
 	historyOfPastDesease text, diagnosis text, relatedDeseases text, medications text,
 	physicalEvaluation text, patientAge int, patientHeight float, patientWeight float,
 	patientSessionNumber int, sessionDuration float, numberOfRegisters int, artIndexPattern text,
-	sessionData blob, PRIMARY KEY(id)
+	sessionData blob, insertionDate timestamp, PRIMARY KEY(id)
 );

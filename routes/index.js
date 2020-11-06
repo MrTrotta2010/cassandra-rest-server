@@ -35,7 +35,7 @@ router.get('/get', async(req,res) => {
 			console.log(err);
 			res.json(err);
 		}else{
-			res.json(rows);
+			res.json(rows['rows']);
 		}
 	});
 });
@@ -76,26 +76,17 @@ router.post('/post', async(req,res) => {
 	var artIndexPattern = req.body.artIndexPattern;
 	var sessionData = req.body.sessionData;
 
-	if (!!id && !!title && !!description && !!mainComplaint && !!historyOfCurrentDesease &&
-		!!historyOfPastDesease && !!diagnosis && !!relatedDeseases && !!medications && !!physicalEvaluation &&
-		!!patientAge && !!patientHeight && !!patientWeight && !!patientSessionNumber && !!sessionDuration &&
-		!!numberOfRegisters && !!artIndexPattern && !!sessionData) {
-		
-		var insert = "INSERT INTO sessions(id,title,description,mainComplaint,historyOfCurrentDesease,historyOfPastDesease,diagnosis,relatedDeseases,medications,physicalEvaluation,patientAge,patientHeight,patientWeight,patientSessionNumber,sessionDuration,numberOfRegisters,artIndexPattern,sessionData) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,textAsBlob(?))";
-		var params = [id,title,description,mainComplaint,historyOfCurrentDesease,historyOfPastDesease,diagnosis,relatedDeseases,medications,physicalEvaluation,patientAge,patientHeight,patientWeight,patientSessionNumber,sessionDuration,numberOfRegisters,artIndexPattern,sessionData];
-		
-		connection.execute(insert, params, { prepare: true }, function(err, rows) {
-			if(!!err){
-				console.log(err);
-				res.json(err);
-			}else{
-				res.json(rows);
-			}
-		});
-	}else{
-		console.log("Please, be sure to provide all the attributes on your json");
-		res.json({"error": "Please, be sure to provide all the attributes on your json"});
-	}
+	var insert = "INSERT INTO sessions(id,title,description,mainComplaint,historyOfCurrentDesease,historyOfPastDesease,diagnosis,relatedDeseases,medications,physicalEvaluation,patientAge,patientHeight,patientWeight,patientSessionNumber,sessionDuration,numberOfRegisters,artIndexPattern,sessionData,insertionDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,textAsBlob(?),toTimeStamp(now())) IF NOT EXISTS";
+	var params = [id,title,description,mainComplaint,historyOfCurrentDesease,historyOfPastDesease,diagnosis,relatedDeseases,medications,physicalEvaluation,patientAge,patientHeight,patientWeight,patientSessionNumber,sessionDuration,numberOfRegisters,artIndexPattern,sessionData];
+	
+	connection.execute(insert, params, { prepare: true }, function(err, rows) {
+		if(!!err){
+			console.log(err);
+			res.json(err);
+		}else{
+			res.json(rows['rows'][0]);
+		}
+	});
 });
 
 // Update a post
@@ -119,26 +110,17 @@ router.patch('/patch/:id', async(req,res) => {
 	var artIndexPattern = req.body.artIndexPattern;
 	var sessionData = req.body.sessionData;
 
-	if (!!id && !!title && !!description && !!mainComplaint && !!historyOfCurrentDesease &&
-		!!historyOfPastDesease && !!diagnosis && !!relatedDeseases && !!medications && !!physicalEvaluation &&
-		!!patientAge && !!patientHeight && !!patientWeight && !!patientSessionNumber && !!sessionDuration &&
-		!!numberOfRegisters && !!artIndexPattern && !!sessionData) {
-
-			var update = "UPDATE sessions SET title=?,description=?,mainComplaint=?,historyOfCurrentDesease=?,historyOfPastDesease=?,diagnosis=?,relatedDeseases=?,medications=?,physicalEvaluation=?,patientAge=?,patientHeight=?,patientWeight=?,patientSessionNumber=?,sessionDuration=?,numberOfRegisters=?,artIndexPattern=?,sessionData=textAsBlob(?) WHERE id=?";
-			var params = [id,title,description,mainComplaint,historyOfCurrentDesease,historyOfPastDesease,diagnosis,relatedDeseases,medications,physicalEvaluation,patientAge,patientHeight,patientWeight,patientSessionNumber,sessionDuration,numberOfRegisters,artIndexPattern,sessionData];
-			
-		connection.execute(update, params, { prepare: true }, function(err, rows){
-			if(!!err){
-				console.log(err);
-				res.json(err);
-			}else{
-				res.json(rows);
-			}
-		});
-	}else{
-		console.log("Please, be sure to provide all the attributes on your json");
-		res.json({"error": "Please, be sure to provide all the attributes on your json"});	
-	}
+	var update = "UPDATE sessions SET title=?,description=?,mainComplaint=?,historyOfCurrentDesease=?,historyOfPastDesease=?,diagnosis=?,relatedDeseases=?,medications=?,physicalEvaluation=?,patientAge=?,patientHeight=?,patientWeight=?,patientSessionNumber=?,sessionDuration=?,numberOfRegisters=?,artIndexPattern=?,sessionData=textAsBlob(?) WHERE id=?";
+	var params = [title,description,mainComplaint,historyOfCurrentDesease,historyOfPastDesease,diagnosis,relatedDeseases,medications,physicalEvaluation,patientAge,patientHeight,patientWeight,patientSessionNumber,sessionDuration,numberOfRegisters,artIndexPattern,sessionData,id];
+		
+	connection.execute(update, params, { prepare: true }, function(err, rows){
+		if(!!err){
+			console.log(err);
+			res.json(err);
+		}else{
+			res.json(rows);
+		}
+	});
 });
 
 // Delete all post
