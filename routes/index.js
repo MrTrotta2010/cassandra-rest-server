@@ -60,22 +60,26 @@ router.post('/post', async(req,res) => {
 	var id = req.body.id;
 	var title = req.body.title;
 	var description = req.body.description;
+	var mainComplaint = req.body.mainComplaint;
+	var historyOfCurrentDesease = req.body.historyOfCurrentDesease;
+	var historyOfPastDesease = req.body.historyOfPastDesease;
+	var diagnosis = req.body.diagnosis;
+	var relatedDeseases = req.body.relatedDeseases;
+	var medications = req.body.medications;
+	var physicalEvaluation = req.body.physicalEvaluation;
 	var patientAge = req.body.patientAge;
 	var patientHeight = req.body.patientHeight;
 	var patientWeight = req.body.patientWeight;
-	var patientPatology = req.body.patientPatology;
 	var patientSessionNumber = req.body.patientSessionNumber;
-	var doctorName = req.body.doctorName;
-	var doctorRegistryNumber = req.body.doctorRegistryNumber;
-	var medicalClinic = req.body.medicalClinic;
 	var sessionDuration = req.body.sessionDuration;
 	var numberOfRegisters = req.body.numberOfRegisters;
 	var artIndexPattern = req.body.artIndexPattern;
 	var sessionData = req.body.sessionData;
 
-	if (!!id && !!title && !!description && !!patientAge && !!patientHeight && !!patientWeight &&
-		!!patientPatology && !!patientSessionNumber && !!doctorName && !!doctorRegistryNumber &&
-		!!medicalClinic && !!sessionDuration && !!numberOfRegisters && !!artIndexPattern && !!sessionData) {
+	if (!!id && !!title && !!description && !!mainComplaint && !!historyOfCurrentDesease &&
+		!!historyOfPastDesease && !!diagnosis && !!relatedDeseases && !!medications && !!physicalEvaluation &&
+		!!patientAge && !!patientHeight && !!patientWeight && !!patientSessionNumber && !!sessionDuration &&
+		!!numberOfRegisters && !!artIndexPattern && !!sessionData) {
 		
 		var insert = "INSERT INTO sessions(id,title,description,patientAge,patientHeight,patientWeight,patientPatology,patientSessionNumber,doctorName,doctorRegistryNumber,medicalClinic,sessionDuration,numberOfRegisters,artIndexPattern,sessionData) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,textAsBlob(?))";
 		var params = [id,title,description,patientAge,patientHeight,patientWeight,patientPatology,patientSessionNumber,doctorName,doctorRegistryNumber,medicalClinic,sessionDuration,numberOfRegisters,artIndexPattern,sessionData];
@@ -99,22 +103,26 @@ router.patch('/patch/:id', async(req,res) => {
 	var id = req.body.id;
 	var title = req.body.title;
 	var description = req.body.description;
+	var mainComplaint = req.body.mainComplaint;
+	var historyOfCurrentDesease = req.body.historyOfCurrentDesease;
+	var historyOfPastDesease = req.body.historyOfPastDesease;
+	var diagnosis = req.body.diagnosis;
+	var relatedDeseases = req.body.relatedDeseases;
+	var medications = req.body.medications;
+	var physicalEvaluation = req.body.physicalEvaluation;
 	var patientAge = req.body.patientAge;
 	var patientHeight = req.body.patientHeight;
 	var patientWeight = req.body.patientWeight;
-	var patientPatology = req.body.patientPatology;
 	var patientSessionNumber = req.body.patientSessionNumber;
-	var doctorName = req.body.doctorName;
-	var doctorRegistryNumber = req.body.doctorRegistryNumber;
-	var medicalClinic = req.body.medicalClinic;
 	var sessionDuration = req.body.sessionDuration;
 	var numberOfRegisters = req.body.numberOfRegisters;
 	var artIndexPattern = req.body.artIndexPattern;
-	var sessionData = req.body.sessionData;	
-	
-	if (!!id && !!title && !!description && !!patientAge && !!patientHeight && !!patientWeight &&
-		!!patientPatology && !!patientSessionNumber && !!doctorName && !!doctorRegistryNumber &&
-		!!medicalClinic && !!sessionDuration && !!numberOfRegisters && !!artIndexPattern && !!sessionData) {
+	var sessionData = req.body.sessionData;
+
+	if (!!id && !!title && !!description && !!mainComplaint && !!historyOfCurrentDesease &&
+		!!historyOfPastDesease && !!diagnosis && !!relatedDeseases && !!medications && !!physicalEvaluation &&
+		!!patientAge && !!patientHeight && !!patientWeight && !!patientSessionNumber && !!sessionDuration &&
+		!!numberOfRegisters && !!artIndexPattern && !!sessionData) {
 
 		var update = "UPDATE sessions SET title=?,description=?,patientAge=?,patientHeight=?,patientWeight=?,patientPatology=?,patientSessionNumber=?,doctorName=?,doctorRegistryNumber=?,medicalClinic=?,sessionDuration=?,numberOfRegisters=?,artIndexPattern=?,sessionData=textAsBlob(?) WHERE id=?";
 		var params = [title,description,patientAge,patientHeight,patientWeight,patientPatology,patientSessionNumber,doctorName,doctorRegistryNumber,medicalClinic,sessionDuration,numberOfRegisters,artIndexPattern,sessionData,id];
