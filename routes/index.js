@@ -18,8 +18,16 @@ connection.connect(function(err,result){
 	console.log('Cassandra connected');
 });
 
+router.get('/',function(req,res){
+	var data = {
+		"Data":""
+	};
+	data["Data"] = "Bem vindo!";
+	res.json(data);
+});
+
 // Get back all the posts
-router.get('/', async(req,res) => {
+router.get('/get', async(req,res) => {
 	var select = "SELECT * from sessions";
 
 	connection.execute(select,function(err, rows){
@@ -33,7 +41,7 @@ router.get('/', async(req,res) => {
 });
 
 // Get a specific post
-router.get('/:postId', async(req,res) => {
+router.get('/get/:postId', async(req,res) => {
 	var params = [req.params.postId]
 	var select = "SELECT * from sessions WHERE id= ?;"
 
