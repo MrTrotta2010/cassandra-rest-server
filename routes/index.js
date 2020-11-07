@@ -60,24 +60,24 @@ router.post('/post', async(req,res) => {
 	var id = req.body.id;
 	var title = req.body.title;
 	var description = req.body.description;
-	var mainComplaint = req.body.mainComplaint;
-	var historyOfCurrentDesease = req.body.historyOfCurrentDesease;
-	var historyOfPastDesease = req.body.historyOfPastDesease;
+	var maincomplaint = req.body.maincomplaint;
+	var historyofcurrentdesease = req.body.historyofcurrentdesease;
+	var historyofpastdesease = req.body.historyofpastdesease;
 	var diagnosis = req.body.diagnosis;
-	var relatedDeseases = req.body.relatedDeseases;
+	var relateddeseases = req.body.relateddeseases;
 	var medications = req.body.medications;
-	var physicalEvaluation = req.body.physicalEvaluation;
-	var patientAge = req.body.patientAge;
-	var patientHeight = req.body.patientHeight;
-	var patientWeight = req.body.patientWeight;
-	var patientSessionNumber = req.body.patientSessionNumber;
-	var sessionDuration = req.body.sessionDuration;
-	var numberOfRegisters = req.body.numberOfRegisters;
-	var artIndexPattern = req.body.artIndexPattern;
-	var sessionData = req.body.sessionData;
+	var physicalevaluation = req.body.physicalevaluation;
+	var patientage = req.body.patientage;
+	var patientheight = req.body.patientheight;
+	var patientweight = req.body.patientweight;
+	var patientsessionnumber = req.body.patientsessionnumber;
+	var sessionduration = req.body.sessionduration;
+	var numberofregisters = req.body.numberofregisters;
+	var artindexpattern = req.body.artindexpattern;
+	var sessiondata = req.body.sessiondata;
 
-	var insert = "INSERT INTO sessions(id,title,description,mainComplaint,historyOfCurrentDesease,historyOfPastDesease,diagnosis,relatedDeseases,medications,physicalEvaluation,patientAge,patientHeight,patientWeight,patientSessionNumber,sessionDuration,numberOfRegisters,artIndexPattern,sessionData,insertionDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,textAsBlob(?),toTimeStamp(now())) IF NOT EXISTS";
-	var params = [id,title,description,mainComplaint,historyOfCurrentDesease,historyOfPastDesease,diagnosis,relatedDeseases,medications,physicalEvaluation,patientAge,patientHeight,patientWeight,patientSessionNumber,sessionDuration,numberOfRegisters,artIndexPattern,sessionData];
+	var insert = "INSERT INTO sessions(id,title,description,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,sessionduration,numberofregisters,artindexpattern,sessiondata,insertionDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,textAsBlob(?),toTimeStamp(now())) IF NOT EXISTS";
+	var params = [id,title,description,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,sessionduration,numberofregisters,artindexpattern,sessiondata];
 	
 	connection.execute(insert, params, { prepare: true }, function(err, rows) {
 		if(!!err){
@@ -94,24 +94,24 @@ router.patch('/patch/:id', async(req,res) => {
 	var id = req.body.id;
 	var title = req.body.title;
 	var description = req.body.description;
-	var mainComplaint = req.body.mainComplaint;
-	var historyOfCurrentDesease = req.body.historyOfCurrentDesease;
-	var historyOfPastDesease = req.body.historyOfPastDesease;
+	var maincomplaint = req.body.maincomplaint;
+	var historyofcurrentdesease = req.body.historyofcurrentdesease;
+	var historyofpastdesease = req.body.historyofpastdesease;
 	var diagnosis = req.body.diagnosis;
-	var relatedDeseases = req.body.relatedDeseases;
+	var relateddeseases = req.body.relateddeseases;
 	var medications = req.body.medications;
-	var physicalEvaluation = req.body.physicalEvaluation;
-	var patientAge = req.body.patientAge;
-	var patientHeight = req.body.patientHeight;
-	var patientWeight = req.body.patientWeight;
-	var patientSessionNumber = req.body.patientSessionNumber;
-	var sessionDuration = req.body.sessionDuration;
-	var numberOfRegisters = req.body.numberOfRegisters;
-	var artIndexPattern = req.body.artIndexPattern;
-	var sessionData = req.body.sessionData;
+	var physicalevaluation = req.body.physicalevaluation;
+	var patientage = req.body.patientage;
+	var patientheight = req.body.patientheight;
+	var patientweight = req.body.patientweight;
+	var patientsessionnumber = req.body.patientsessionnumber;
+	var sessionduration = req.body.sessionduration;
+	var numberofregisters = req.body.numberofregisters;
+	var artindexpattern = req.body.artindexpattern;
+	var sessiondata = req.body.sessiondata;
 
-	var update = "UPDATE sessions SET title=?,description=?,mainComplaint=?,historyOfCurrentDesease=?,historyOfPastDesease=?,diagnosis=?,relatedDeseases=?,medications=?,physicalEvaluation=?,patientAge=?,patientHeight=?,patientWeight=?,patientSessionNumber=?,sessionDuration=?,numberOfRegisters=?,artIndexPattern=?,sessionData=textAsBlob(?) WHERE id=?";
-	var params = [title,description,mainComplaint,historyOfCurrentDesease,historyOfPastDesease,diagnosis,relatedDeseases,medications,physicalEvaluation,patientAge,patientHeight,patientWeight,patientSessionNumber,sessionDuration,numberOfRegisters,artIndexPattern,sessionData,id];
+	var update = "UPDATE sessions SET title=?,description=?,maincomplaint=?,historyofcurrentdesease=?,historyofpastdesease=?,diagnosis=?,relateddeseases=?,medications=?,physicalevaluation=?,patientage=?,patientheight=?,patientweight=?,patientsessionnumber=?,sessionduration=?,numberofregisters=?,artindexpattern=?,sessiondata=textAsBlob(?) WHERE id=?";
+	var params = [title,description,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,sessionduration,numberofregisters,artindexpattern,sessiondata,id];
 		
 	connection.execute(update, params, { prepare: true }, function(err, rows){
 		if(!!err){

@@ -13,9 +13,9 @@ USE sessionsdb;
 // =======================================================
 
 CREATE TABLE sessions(
-	id text, title text, description text, mainComplaint text, historyOfCurrentDesease text,
-	historyOfPastDesease text, diagnosis text, relatedDeseases text, medications text,
-	physicalEvaluation text, patientAge int, patientHeight float, patientWeight float,
-	patientSessionNumber int, sessionDuration float, numberOfRegisters int, artIndexPattern text,
-	sessionData blob, insertionDate timestamp, PRIMARY KEY(id)
+	id text, title text, description text, maincomplaint text, historyofcurrentdesease text,
+	historyofpastdesease text, diagnosis text, relateddeseases text, medications text,
+	physicalevaluation text, patientage int, patientheight float, patientweight float,
+	patientsessionnumber int, sessionduration float, numberofregisters int, artindexpattern text,
+	sessiondata blob, insertiondate timestamp, PRIMARY KEY(id, insertiondate)
 );
