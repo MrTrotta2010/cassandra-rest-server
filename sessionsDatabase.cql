@@ -13,7 +13,7 @@ USE sessionsdb;
 // =======================================================
 
 CREATE TABLE sessions(
-	id text, title text, description text, doctorid text,maincomplaint text, historyofcurrentdesease text,
+	id text, title text, description text, professionalid text, maincomplaint text, historyofcurrentdesease text,
 	historyofpastdesease text, diagnosis text, relateddeseases text, medications text,
 	physicalevaluation text, patientage int, patientheight float, patientweight float,
 	patientsessionnumber int, sessionduration float, numberofregisters int, artindexpattern text,
