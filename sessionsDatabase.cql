@@ -9,7 +9,7 @@ CREATE KEYSPACE sessionsdb WITH replication = {'class':'SimpleStrategy', 'replic
 
 USE sessionsdb;
 
-// Creating a table named 'session' with following columns
+// Creating a table named 'sessions' with following columns
 // =======================================================
 
 CREATE TABLE sessions(
@@ -19,3 +19,5 @@ CREATE TABLE sessions(
 	patientsessionnumber int, sessionduration float, numberofregisters int, artindexpattern text,
 	sessiondata blob, insertiondate timestamp, PRIMARY KEY(id, insertiondate)
 );
+
+CREATE INDEX IF NOT EXISTS professionalid_index ON sessionsdb.sessions (professionalid);
