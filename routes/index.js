@@ -40,10 +40,10 @@ router.get('/get', async(req,res) => {
 	});
 });
 
-// Get a specific post
-router.get('/get/:postId', async(req,res) => {
-	var params = [req.params.postId]
-	var select = "SELECT * from sessions WHERE id= ?;"
+// Get posts by a specific professional 
+router.get('/get/:professionalId', async(req,res) => {
+	var params = [req.params.professionalId]
+	var select = "SELECT * from sessions WHERE professionalid=?;"
 
 	connection.execute(select,params,function(err, rows){
 		if(!!err){
