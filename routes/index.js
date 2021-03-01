@@ -50,7 +50,7 @@ router.get('/get/professionalid/:professionalid', async(req,res) => {
 			console.log(err);
 			res.json(err);
 		}else{
-			res.json(rows);
+			res.json(rows['rows']);
 		}
 	});
 });
@@ -65,7 +65,7 @@ router.get('/get/patientname/:patientname', async(req,res) => {
 			console.log(err);
 			res.json(err);
 		}else{
-			res.json(rows);
+			res.json(rows['rows']);
 		}
 	});
 });
@@ -81,7 +81,7 @@ router.get('/get/professionalpatient/:professionalid/:patientname', async(req,re
 			console.log(err);
 			res.json(err);
 		}else{
-			res.json(rows);
+			res.json(rows['rows']);
 		}
 	});
 });
