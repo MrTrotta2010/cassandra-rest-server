@@ -41,8 +41,8 @@ router.get('/get', async(req,res) => {
 });
 
 // Get posts by a specific professional 
-router.get('/get/:professionalId', async(req,res) => {
-	var params = [req.params.professionalId]
+router.get('/get/professionalid/:professionalid', async(req,res) => {
+	var params = [req.params.professionalid]
 	var select = "SELECT * from sessions WHERE professionalid=?;"
 
 	connection.execute(select,params,function(err, rows){
@@ -50,17 +50,51 @@ router.get('/get/:professionalId', async(req,res) => {
 			console.log(err);
 			res.json(err);
 		}else{
-			res.json(rows);
+			res.json(rows['rows']);
 		}
 	});
 });
+
+// Get posts by a specific patientname 
+router.get('/get/patientname/:patientname', async(req,res) => {
+	var params = [req.params.patientname]
+	var select = "SELECT * from sessions WHERE patientname=? ALLOW FILTERING;"
+
+	connection.execute(select,params,function(err, rows){
+		if(!!err){
+			console.log(err);
+			res.json(err);
+		}else{
+			res.json(rows['rows']);
+		}
+	});
+});
+
+
+// Get posts by a specific professional and patientname
+router.get('/get/professionalpatient/:professionalid/:patientname', async(req,res) => {
+	var params = [req.params.professionalid, req.params.patientname]
+	var select = "SELECT * from sessions WHERE professionalid=? and patientname=? ALLOW FILTERING;"
+
+	connection.execute(select,params,function(err, rows){
+		if(!!err){
+			console.log(err);
+			res.json(err);
+		}else{
+			res.json(rows['rows']);
+		}
+	});
+});
+
 
 // Submit a post
 router.post('/post', async(req,res) => {
 	var id = req.body.id;
 	var title = req.body.title;
+	var device = req.body.device;
 	var description = req.body.description;
 	var professionalid = req.body.professionalid;
+	var patientname = req.body.patientname;
 	var maincomplaint = req.body.maincomplaint;
 	var historyofcurrentdesease = req.body.historyofcurrentdesease;
 	var historyofpastdesease = req.body.historyofpastdesease;
@@ -77,8 +111,8 @@ router.post('/post', async(req,res) => {
 	var artindexpattern = req.body.artindexpattern;
 	var sessiondata = req.body.sessiondata;
 
-	var insert = "INSERT INTO sessions(id,title,description,professionalid,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,sessionduration,numberofregisters,artindexpattern,sessiondata,insertionDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,textAsBlob(?),toTimeStamp(now())) IF NOT EXISTS";
-	var params = [id,title,description,professionalid,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,sessionduration,numberofregisters,artindexpattern,sessiondata];
+	var insert = "INSERT INTO sessions(id,title,device,description,professionalid,patientname,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,sessionduration,numberofregisters,artindexpattern,sessiondata,insertionDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,textAsBlob(?),toTimeStamp(now())) IF NOT EXISTS";
+	var params = [id,title,device,description,professionalid,patientname,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,sessionduration,numberofregisters,artindexpattern,sessiondata];
 	
 	connection.execute(insert, params, { prepare: true }, function(err, rows) {
 		if(!!err){
@@ -94,8 +128,10 @@ router.post('/post', async(req,res) => {
 router.patch('/patch/:id', async(req,res) => {
 	var id = req.body.id;
 	var title = req.body.title;
+	var device = req.body.device;
 	var description = req.body.description;
 	var professionalid = req.body.professionalid;
+	var patientname = req.body.patientname;
 	var maincomplaint = req.body.maincomplaint;
 	var historyofcurrentdesease = req.body.historyofcurrentdesease;
 	var historyofpastdesease = req.body.historyofpastdesease;
@@ -112,8 +148,8 @@ router.patch('/patch/:id', async(req,res) => {
 	var artindexpattern = req.body.artindexpattern;
 	var sessiondata = req.body.sessiondata;
 
-	var update = "UPDATE sessions SET title=?,description=?,professionalid=?,maincomplaint=?,historyofcurrentdesease=?,historyofpastdesease=?,diagnosis=?,relateddeseases=?,medications=?,physicalevaluation=?,patientage=?,patientheight=?,patientweight=?,patientsessionnumber=?,sessionduration=?,numberofregisters=?,artindexpattern=?,sessiondata=textAsBlob(?) WHERE id=?";
-	var params = [title,description,professionalid,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,sessionduration,numberofregisters,artindexpattern,sessiondata,id];
+	var update = "UPDATE sessions SET title=?,device=?,description=?,professionalid=?,patientname=?,maincomplaint=?,historyofcurrentdesease=?,historyofpastdesease=?,diagnosis=?,relateddeseases=?,medications=?,physicalevaluation=?,patientage=?,patientheight=?,patientweight=?,patientsessionnumber=?,sessionduration=?,numberofregisters=?,artindexpattern=?,sessiondata=textAsBlob(?) WHERE id=?";
+	var params = [title,device,description,professionalid,patientname,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,sessionduration,numberofregisters,artindexpattern,sessiondata,id];
 		
 	connection.execute(update, params, { prepare: true }, function(err, rows){
 		if(!!err){
