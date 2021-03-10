@@ -12,7 +12,8 @@ USE sessionsdb;
 // =======================================================
 
 CREATE TABLE sessions(
-        id text, title text, device text, description text, professionalid text, patientname text, maincomplaint text, historyofcurrentdesease text,
+        id text, title text, device text, description text, professionalid text, patientid text,
+        movementlabel text, maincomplaint text, historyofcurrentdesease text,
         historyofpastdesease text, diagnosis text, relateddeseases text, medications text,
         physicalevaluation text, patientage int, patientheight float, patientweight float,
         patientsessionnumber int, sessionduration float, numberofregisters int, artindexpattern text,
@@ -20,4 +21,4 @@ CREATE TABLE sessions(
 );
 
 CREATE INDEX IF NOT EXISTS professionalid_index ON sessionsdb.sessions (professionalid);
-CREATE INDEX IF NOT EXISTS patientname_index ON sessiondb.sessions (patientname);
+CREATE INDEX IF NOT EXISTS patientid_index ON sessiondb.sessions (patientid);
