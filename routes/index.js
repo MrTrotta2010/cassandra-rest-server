@@ -107,8 +107,10 @@ router.post('/post', async(req,res) => {
 	var patientheight = req.body.patientheight;
 	var patientweight = req.body.patientweight;
 	var patientsessionnumber = req.body.patientsessionnumber;
-	var sessionduration = req.body.sessionduration;
 	var numberofregisters = req.body.numberofregisters;
+	// A duração da sessão é calculada multiplicando o número de registros
+	// pela duração de um frame (considerando uma aplicação a 30 fps)
+	var sessionduration = Number(numberofregisters) * (1 / 30);
 	var artindexpattern = req.body.artindexpattern;
 	var sessiondata = req.body.sessiondata;
 
