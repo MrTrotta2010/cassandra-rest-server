@@ -127,12 +127,8 @@ router.post('/post', async(req,res) => {
 
 // Update a post
 router.patch('/patch/:id', async(req,res) => {
-	var id = req.body.id;
 	var title = req.body.title;
-	var device = req.body.device;
 	var description = req.body.description;
-	var professionalid = req.body.professionalid;
-	var patientid = req.body.patientid;
 	var movementlabel = req.body.movementlabel;
 	var maincomplaint = req.body.maincomplaint;
 	var historyofcurrentdesease = req.body.historyofcurrentdesease;
@@ -145,13 +141,9 @@ router.patch('/patch/:id', async(req,res) => {
 	var patientheight = req.body.patientheight;
 	var patientweight = req.body.patientweight;
 	var patientsessionnumber = req.body.patientsessionnumber;
-	var sessionduration = req.body.sessionduration;
-	var numberofregisters = req.body.numberofregisters;
-	var artindexpattern = req.body.artindexpattern;
-	var sessiondata = req.body.sessiondata;
 
-	var update = "UPDATE sessions SET title=?,device=?,description=?,professionalid=?,patientid=?,movementlabel=?,maincomplaint=?,historyofcurrentdesease=?,historyofpastdesease=?,diagnosis=?,relateddeseases=?,medications=?,physicalevaluation=?,patientage=?,patientheight=?,patientweight=?,patientsessionnumber=?,sessionduration=?,numberofregisters=?,artindexpattern=?,sessiondata=textAsBlob(?) WHERE id=?";
-	var params = [title,device,description,professionalid,patientid,movementlabel,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,sessionduration,numberofregisters,artindexpattern,sessiondata,id];
+	var update = "UPDATE sessions SET title=?,description=?,movementlabel=?,maincomplaint=?,historyofcurrentdesease=?,historyofpastdesease=?,diagnosis=?,relateddeseases=?,medications=?,physicalevaluation=?,patientage=?,patientheight=?,patientweight=?,patientsessionnumber=? WHERE id=?";
+	var params = [title,description,movementlabel,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,id];
 		
 	connection.execute(update, params, { prepare: true }, function(err, rows){
 		if(!!err){
