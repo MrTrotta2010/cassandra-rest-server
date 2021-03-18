@@ -169,7 +169,7 @@ router.delete('/deleteall', function(req,res){
 });
 
 // Delete a Session
-router.delete('/delete/:id',function(req,res){
+router.delete('/delete/session/:id',function(req,res){
 	var id = req.params.id;
 	
 	if(!!id){
@@ -185,6 +185,28 @@ router.delete('/delete/:id',function(req,res){
 	}else{
 		console.log("Please, be sure to provide the id on your json");
 		res.json({"error": "Please, be sure to provide the id on your json"});	
+	}
+});
+
+// Delete a movement from a Session
+router.delete('/delete/movement/:id/:movementlabel/:insertiondate',function(req,res){
+	var id = req.params.id;
+	var movementlabel = req.params.movementlabel;
+	var insertiondate = req.params.insertiondate;
+	
+	if(!!id){
+		var delet = "DELETE FROM sessions WHERE id=?,movementlabel=?,insertiondate=?";
+		connection.execute(delet, [id, movementlabel, insertiondate], function(err, rows){
+			if(!!err){
+				console.log(err);
+				res.json(err);
+			}else{
+				res.json(rows);
+			}
+		});
+	}else{
+		console.log("Please, be sure to provide the id, the movementlabel and the insertiondate on your json");
+		res.json({"error": "Please, be sure to provide the id, the movementlabel and the insertiondate on your json"});	
 	}
 });
 
