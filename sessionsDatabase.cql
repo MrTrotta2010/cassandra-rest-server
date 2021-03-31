@@ -17,7 +17,7 @@ CREATE TABLE sessions(
         historyofpastdesease text, diagnosis text, relateddeseases text, medications text,
         physicalevaluation text, patientage int, patientheight float, patientweight float,
         patientsessionnumber int, sessionduration float, numberofregisters int, artindexpattern text,
-        sessiondata blob, insertiondate timestamp, PRIMARY KEY(id, insertiondate)
+        sessiondata blob, insertiondate text, PRIMARY KEY(id, movementlabel, insertiondate)
 );
 
 CREATE INDEX IF NOT EXISTS professionalid_index ON sessionsdb.sessions (professionalid);

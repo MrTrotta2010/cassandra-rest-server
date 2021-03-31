@@ -112,8 +112,10 @@ router.post('/post', async(req,res) => {
 	var artindexpattern = req.body.artindexpattern;
 	var sessiondata = req.body.sessiondata;
 
-	var insert = "INSERT INTO sessions(id,title,device,description,professionalid,patientid,movementlabel,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,sessionduration,numberofregisters,artindexpattern,sessiondata,insertionDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,textAsBlob(?),toTimeStamp(now())) IF NOT EXISTS";
-	var params = [id,title,device,description,professionalid,patientid,movementlabel,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,sessionduration,numberofregisters,artindexpattern,sessiondata];
+	var insertiondate = getFormattedDate()
+
+	var insert = "INSERT INTO sessions(id,title,device,description,professionalid,patientid,movementlabel,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,sessionduration,numberofregisters,artindexpattern,sessiondata,insertionDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,textAsBlob(?),?) IF NOT EXISTS";
+	var params = [id,title,device,description,professionalid,patientid,movementlabel,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,sessionduration,numberofregisters,artindexpattern,sessiondata,insertiondate];
 	
 	connection.execute(insert, params, { prepare: true }, function(err, rows) {
 		if(!!err){
@@ -157,7 +159,6 @@ router.patch('/patch/session/:id', async(req,res) => {
 
 // Update a specific movement
 router.patch('/patch/movement/:id/:movementlabel/:insertiondate', async(req,res) => {
-	var title = req.body.title;
 	var description = req.body.description;
 	var movementlabel = req.body.movementlabel;
 	var maincomplaint = req.body.maincomplaint;
@@ -172,8 +173,8 @@ router.patch('/patch/movement/:id/:movementlabel/:insertiondate', async(req,res)
 	var patientweight = req.body.patientweight;
 	var patientsessionnumber = req.body.patientsessionnumber;
 
-	var update = "UPDATE sessions SET title=?,description=?,movementlabel=?,maincomplaint=?,historyofcurrentdesease=?,historyofpastdesease=?,diagnosis=?,relateddeseases=?,medications=?,physicalevaluation=?,patientage=?,patientheight=?,patientweight=?,patientsessionnumber=? WHERE id=? AND movementlabel=? AND insertiondate=?";
-	var params = [title,description,movementlabel,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,id];
+	var update = "UPDATE sessions SET description=?,movementlabel=?,maincomplaint=?,historyofcurrentdesease=?,historyofpastdesease=?,diagnosis=?,relateddeseases=?,medications=?,physicalevaluation=?,patientage=?,patientheight=?,patientweight=?,patientsessionnumber=? WHERE id=? AND movementlabel=? AND insertiondate=?";
+	var params = [description,movementlabel,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,id];
 		
 	connection.execute(update, params, { prepare: true }, function(err, rows){
 		if(!!err){
@@ -239,5 +240,25 @@ router.delete('/delete/movement/:id/:movementlabel/:insertiondate',function(req,
 		res.json({"error": "Please, be sure to provide the id, the movementlabel and the insertiondate on your json"});	
 	}
 });
+
+function getFormattedDate() {
+	var date = new Date();
+
+	var month = date.getMonth() + 1;
+	var day = date.getDate();
+	var hour = date.getHours();
+	var min = date.getMinutes();
+	var sec = date.getSeconds();
+	var mil = date.getMilliseconds();
+
+	month = (month < 10 ? "0" : "") + month;
+	day = (day < 10 ? "0" : "") + day;
+	hour = (hour < 10 ? "0" : "") + hour;
+	min = (min < 10 ? "0" : "") + min;
+	sec = (sec < 10 ? "0" : "") + sec;
+
+	return date.getFullYear() + "-" + month + "-" + day +
+			"T" +  hour + ":" + min + ":" + sec + "." + mil + "Z";
+}
 
 module.exports = router;
