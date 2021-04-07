@@ -1,0 +1,1 @@
+DELETE FROM sessions WHERE id="92D53E1D01D5F0EA327576570916D2C29518456AB41EDE846074CC6FFC19F083" AND movementlabel="\""Agachadinha\"",\""Levitação assistida\""" AND insertiondate="\""2021-03-31T14:45:51.257Z\"",\""2021-03-31T14:47:24.109Z\""";

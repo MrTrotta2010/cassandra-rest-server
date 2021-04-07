@@ -127,40 +127,9 @@ router.post('/post', async(req,res) => {
 	});
 });
 
-// Update a post
-router.patch('/patch/session/:id', async(req,res) => {
-	var title = req.body.title;
-	var description = req.body.description;
-	var movementlabel = req.body.movementlabel;
-	var maincomplaint = req.body.maincomplaint;
-	var historyofcurrentdesease = req.body.historyofcurrentdesease;
-	var historyofpastdesease = req.body.historyofpastdesease;
-	var diagnosis = req.body.diagnosis;
-	var relateddeseases = req.body.relateddeseases;
-	var medications = req.body.medications;
-	var physicalevaluation = req.body.physicalevaluation;
-	var patientage = req.body.patientage;
-	var patientheight = req.body.patientheight;
-	var patientweight = req.body.patientweight;
-	var patientsessionnumber = req.body.patientsessionnumber;
-
-	var update = "UPDATE sessions SET title=?,description=?,movementlabel=?,maincomplaint=?,historyofcurrentdesease=?,historyofpastdesease=?,diagnosis=?,relateddeseases=?,medications=?,physicalevaluation=?,patientage=?,patientheight=?,patientweight=?,patientsessionnumber=? WHERE id=?";
-	var params = [title,description,movementlabel,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,id];
-		
-	connection.execute(update, params, { prepare: true }, function(err, rows){
-		if(!!err){
-			console.log(err);
-			res.json(err);
-		}else{
-			res.json(rows);
-		}
-	});
-});
-
-// Update a specific movement
+// Update a specific Session
 router.patch('/patch/movement/:id/:movementlabel/:insertiondate', async(req,res) => {
 	var description = req.body.description;
-	var movementlabel = req.body.movementlabel;
 	var maincomplaint = req.body.maincomplaint;
 	var historyofcurrentdesease = req.body.historyofcurrentdesease;
 	var historyofpastdesease = req.body.historyofpastdesease;
@@ -173,8 +142,8 @@ router.patch('/patch/movement/:id/:movementlabel/:insertiondate', async(req,res)
 	var patientweight = req.body.patientweight;
 	var patientsessionnumber = req.body.patientsessionnumber;
 
-	var update = "UPDATE sessions SET description=?,movementlabel=?,maincomplaint=?,historyofcurrentdesease=?,historyofpastdesease=?,diagnosis=?,relateddeseases=?,medications=?,physicalevaluation=?,patientage=?,patientheight=?,patientweight=?,patientsessionnumber=? WHERE id=? AND movementlabel=? AND insertiondate=?";
-	var params = [description,movementlabel,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,id];
+	var update = "UPDATE sessions SET description=?,maincomplaint=?,historyofcurrentdesease=?,historyofpastdesease=?,diagnosis=?,relateddeseases=?,medications=?,physicalevaluation=?,patientage=?,patientheight=?,patientweight=?,patientsessionnumber=? WHERE id=? AND movementlabel=? AND insertiondate=?";
+	var params = [description,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,req.params.id,req.params.movementlabel,req.params.insertiondate];
 		
 	connection.execute(update, params, { prepare: true }, function(err, rows){
 		if(!!err){
@@ -199,27 +168,7 @@ router.delete('/deleteall', function(req,res){
 	});
 });
 
-// Delete a Session
-router.delete('/delete/session/:id',function(req,res){
-	var id = req.params.id;
-	
-	if(!!id){
-		var delet = "DELETE FROM sessions WHERE id=?";
-		connection.execute(delet, [id], function(err, rows){
-			if(!!err){
-				console.log(err);
-				res.json(err);
-			}else{
-				res.json(rows);
-			}
-		});
-	}else{
-		console.log("Please, be sure to provide the id on your json");
-		res.json({"error": "Please, be sure to provide the id on your json"});	
-	}
-});
-
-// Delete a movement from a Session
+// Delete a specific Session
 router.delete('/delete/movement/:id/:movementlabel/:insertiondate',function(req,res){
 	var id = req.params.id;
 	var movementlabel = req.params.movementlabel;
