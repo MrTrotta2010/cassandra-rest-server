@@ -156,17 +156,17 @@ router.patch('/patch/movement/:id/:movementlabel/:insertiondate', async(req,res)
 });
 
 // Delete all post
-router.delete('/deleteall', function(req,res){
-	var delet = "TRUNCATE sessions;";
-	connection.execute(delet, function(err, rows){
-		if(!!err){
-			console.log(err);
-			res.json(err);
-		}else{
-			res.json(rows);
-		}
-	});
-});
+// router.delete('/deleteall', function(req,res){
+// var delet = "TRUNCATE sessions;";
+// connection.execute(delet, function(err, rows){
+// 		if(!!err){
+// 			console.log(err);
+// 			res.json(err);
+// 		}else{
+// 			res.json(rows);
+// 		}
+// 	});
+// });
 
 // Delete a specific Session
 router.delete('/delete/movement/:id/:movementlabel/:insertiondate',function(req,res){
