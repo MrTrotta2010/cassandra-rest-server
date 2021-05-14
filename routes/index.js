@@ -34,8 +34,10 @@ router.get('/get', async(req,res) => {
 		if(!!err){
 			console.log(err);
 			res.json(err);
-		}else{
-			res.json(rows['rows']);
+		} else {
+			let sessionList = rows['rows'];
+			sortSessionList(sessionList);
+			res.json(sessionList);
 		}
 	});
 });
@@ -49,8 +51,10 @@ router.get('/get/professionalid/:professionalid', async(req,res) => {
 		if(!!err){
 			console.log(err);
 			res.json(err);
-		}else{
-			res.json(rows['rows']);
+		} else {
+			let sessionList = rows['rows'];
+			sortSessionList(sessionList);
+			res.json(sessionList);
 		}
 	});
 });
@@ -64,8 +68,10 @@ router.get('/get/patientid/:patientid', async(req,res) => {
 		if(!!err){
 			console.log(err);
 			res.json(err);
-		}else{
-			res.json(rows['rows']);
+		} else {
+			let sessionList = rows['rows'];
+			sortSessionList(sessionList);
+			res.json(sessionList);
 		}
 	});
 });
@@ -80,8 +86,10 @@ router.get('/get/professionalpatient/:professionalid/:patientid', async(req,res)
 		if(!!err){
 			console.log(err);
 			res.json(err);
-		}else{
-			res.json(rows['rows']);
+		} else {
+			let sessionList = rows['rows'];
+			sortSessionList(sessionList);
+			res.json(sessionList);
 		}
 	});
 });
@@ -121,7 +129,7 @@ router.post('/post', async(req,res) => {
 		if(!!err){
 			console.log(err);
 			res.json(err);
-		}else{
+		} else {
 			res.json(rows['rows'][0]);
 		}
 	});
@@ -149,7 +157,7 @@ router.patch('/patch/movement/:id/:movementlabel/:insertiondate', async(req,res)
 		if(!!err){
 			console.log(err);
 			res.json(err);
-		}else{
+		} else {
 			res.json(rows);
 		}
 	});
@@ -162,7 +170,7 @@ router.patch('/patch/movement/:id/:movementlabel/:insertiondate', async(req,res)
 // 		if(!!err){
 // 			console.log(err);
 // 			res.json(err);
-// 		}else{
+// 		} else {
 // 			res.json(rows);
 // 		}
 // 	});
@@ -180,11 +188,11 @@ router.delete('/delete/movement/:id/:movementlabel/:insertiondate',function(req,
 			if(!!err){
 				console.log(err);
 				res.json(err);
-			}else{
+			} else {
 				res.json(rows);
 			}
 		});
-	}else{
+	} else {
 		console.log("Please, be sure to provide the id, the movementlabel and the insertiondate on your json");
 		res.json({"error": "Please, be sure to provide the id, the movementlabel and the insertiondate on your json"});	
 	}
@@ -208,6 +216,15 @@ function getFormattedDate() {
 
 	return date.getFullYear() + "-" + month + "-" + day +
 			"T" +  hour + ":" + min + ":" + sec + "." + mil + "Z";
+}
+
+function sortSessionList(sessionList) {
+	sessionList.sort((a, b) => {
+		return new Date(a.insertiondate) - new Date(b.insertiondate)
+	});
+	sessionList.forEach(element => {
+		console.log(element.insertiondate)
+	});
 }
 
 module.exports = router;
