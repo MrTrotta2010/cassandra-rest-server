@@ -45,7 +45,7 @@ router.get('/get', async(req,res) => {
 // Get posts by a specific professional 
 router.get('/get/professionalid/:professionalid', async(req,res) => {
 	var params = [req.params.professionalid]
-	var select = "SELECT * from sessions WHERE professionalid=?;"
+	var select = "SELECT * from sessions WHERE professionalid=? ALLOW FILTERING;"
 
 	connection.execute(select,params,function(err, rows){
 		if(!!err){

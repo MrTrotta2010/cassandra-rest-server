@@ -22,4 +22,3 @@ CREATE TABLE sessions(
 
 CREATE INDEX IF NOT EXISTS professionalid_index ON sessionsdb.sessions (professionalid);
 CREATE INDEX IF NOT EXISTS patientid_index ON sessionsdb.sessions (patientid);
-CREATE INDEX IF NOT EXISTS title_index ON sessionsdb.sessions (title);
