@@ -28,7 +28,7 @@ function sortSessionList(sessionList) {
 }
 
 module.exports = {
-    GetAllSessions: async (req, res) => {
+    getAllSessions: async (req, res) => {
         let select = "SELECT * from sessions";
     
         connection.execute(select,function(err, rows){
@@ -43,7 +43,7 @@ module.exports = {
         });
     },
 
-    GetAllSessionsByProfessionalID: async (req, res) => {
+    getAllSessionsByProfessionalID: async (req, res) => {
         let params = [req.params.professionalid]
         let select = "SELECT * from sessions WHERE professionalid=? ALLOW FILTERING;"
     
@@ -59,7 +59,7 @@ module.exports = {
         });
     },
 
-    GetAllSessionsByPatientID: async (req, res) => {
+    getAllSessionsByPatientID: async (req, res) => {
         let params = [req.params.patientid]
         let select = "SELECT * from sessions WHERE patientid=? ALLOW FILTERING;"
     
@@ -75,7 +75,7 @@ module.exports = {
         });
     },
 
-    GetAllSessionsByProfessionalPatientID: async (req, res) => {
+    getAllSessionsByProfessionalPatientID: async (req, res) => {
         let params = [req.params.professionalid, req.params.patientid]
         let select = "SELECT * from sessions WHERE professionalid=? and patientid=? ALLOW FILTERING;"
     
@@ -91,7 +91,7 @@ module.exports = {
         });
     },
 
-    UploadSession: async (req, res) => {
+    uploadSession: async (req, res) => {
         let id = req.body.id;
         let title = req.body.title;
         let device = req.body.device;
@@ -130,7 +130,7 @@ module.exports = {
         });
     },
 
-    UpdateSession: async (req, res) => {
+    updateSession: async (req, res) => {
         let description = req.body.description;
         let maincomplaint = req.body.maincomplaint;
         let historyofcurrentdesease = req.body.historyofcurrentdesease;
@@ -157,7 +157,7 @@ module.exports = {
         });
     },
 
-    DeleteSession: async (req, res) => {
+    deleteSession: async (req, res) => {
         let id = req.params.id;
         let movementlabel = req.params.movementlabel;
         let insertiondate = req.params.insertiondate;

@@ -29,24 +29,24 @@ router.get('/',function(req,res){
 });
 
 // Get back all the posts
-router.get('/get', Controller.GetAllSessions);
+router.get('/get', Controller.getAllSessions);
 
 // Get posts by a specific professional 
-router.get('/get/professionalid/:professionalid', Controller.GetAllSessionsByProfessionalID);
+router.get('/get/professionalid/:professionalid', Controller.getAllSessionsByProfessionalID);
 
 // Get posts by a specific patientid 
-router.get('/get/patientid/:patientid', Controller.GetAllSessionsByPatientID);
+router.get('/get/patientid/:patientid', Controller.getAllSessionsByPatientID);
 
 // Get posts by a specific professionalid and patientid
-router.get('/get/professionalpatient/:professionalid/:patientid', Controller.GetAllSessionsByProfessionalPatientID);
+router.get('/get/professionalpatient/:professionalid/:patientid', Controller.getAllSessionsByProfessionalPatientID);
 
 // Submit a post
-router.post('/post', Controller.UploadSession);
+router.post('/post', Controller.uploadSession);
 
 // Update a specific Session
-router.patch('/patch/movement/:id/:movementlabel/:insertiondate', Controller.UpdateSession);
+router.patch('/patch/movement/:id/:movementlabel/:insertiondate', Controller.updateSession);
 
 // Delete a specific Session
-router.delete('/delete/movement/:id/:movementlabel/:insertiondate', Controller.DeleteSession);
+router.delete('/delete/movement/:id/:movementlabel/:insertiondate', Controller.deleteSession);
 
 module.exports = router;
