@@ -21,11 +21,7 @@ connection.connect(function(err,result){
 });
 
 router.get('/',function(req,res){
-	var data = {
-		"Data":""
-	};
-	data["Data"] = "Bem vindo!";
-	res.json(data);
+	res.json({ data: "Bem vindo ao ReBase!" });
 });
 
 // Get back all the posts
