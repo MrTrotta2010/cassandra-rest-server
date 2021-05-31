@@ -1,11 +1,9 @@
 /////////////////////////////////
 // Require the modules
 /////////////////////////////////
-var cassandra 		= require("cassandra-driver");
-var express 		= require('express');
-const { UpdateSession } = require("../controllers/SessionController");
-var router 			= express.Router();
-const Controller	= require('../controllers/SessionController');
+const cassandra 		= require("cassandra-driver");
+const express 			= require('express');
+const router 			= express.Router();
 ////////////////////////////////////
 // Cassandra database config
 ////////////////////////////////////
@@ -14,13 +12,13 @@ var dbConfig = {
 	 	keyspace:'sessionsdb'
 	};
 
-var connection = new cassandra.Client(dbConfig);
+const connection = new cassandra.Client(dbConfig);
 
-connection.connect(function(err,result){
+connection.connect(function(err, result){
 	console.log('Cassandra connected');
 });
 
-router.get('/',function(req,res){
+router.get('/',function(req, res){
 	res.json({ data: "Bem vindo ao ReBase!" });
 });
 
@@ -51,16 +49,21 @@ router.get('/get/professionalid/:professionalid', async (req, res) => {
 	let params = [req.params.professionalid]
 	let select = "SELECT * from sessions WHERE professionalid=? ALLOW FILTERING;"
 
-	connection.execute(select,params,function(err, rows){
-		if(!!err){
-			console.log(err);
-			res.json(err);
-		} else {
-			let sessionList = rows['rows'];
-			sortSessionList(sessionList);
-			res.json(sessionList);
-		}
-	});
+	try {
+		connection.execute(select,params,function(err, rows){
+			if(!!err){
+				console.log("[ERRO] Erro ao recuperar Sessões: " + err);
+				res.status(500).send({ status: 0, message: "Não foi possível recuperar as Sessões", erro: err });
+			} else {
+				let sessionList = rows['rows'];
+				sortSessionList(sessionList);
+				res.send({ satus: 0, sessionList });
+			}
+		});
+	} catch(e) {
+		console.log("[ERRO] Erro ao recuperar Sessões: " + e.message);
+		res.status(500).send({ status: 0, message: "Não foi possível recuperar as Sessões", erro: e.message });
+	}
 });
 
 // Get posts by a specific patientid 
@@ -68,16 +71,21 @@ router.get('/get/patientid/:patientid', async (req, res) => {
 	let params = [req.params.patientid]
 	let select = "SELECT * from sessions WHERE patientid=? ALLOW FILTERING;"
 
-	connection.execute(select,params,function(err, rows){
-		if(!!err){
-			console.log(err);
-			res.json(err);
-		} else {
-			let sessionList = rows['rows'];
-			sortSessionList(sessionList);
-			res.json(sessionList);
-		}
-	});
+	try {
+		connection.execute(select,params,function(err, rows){
+			if(!!err){
+				console.log("[ERRO] Erro ao recuperar Sessões: " + err);
+				res.status(500).send({ status: 0, message: "Não foi possível recuperar as Sessões", erro: err });
+			} else {
+				let sessionList = rows['rows'];
+				sortSessionList(sessionList);
+				res.send({ satus: 0, sessionList });
+			}
+		});
+	} catch(e) {
+		console.log("[ERRO] Erro ao recuperar Sessões: " + e.message);
+		res.status(500).send({ status: 0, message: "Não foi possível recuperar as Sessões", erro: e.message });
+	}
 });
 
 // Get posts by a specific professionalid and patientid
@@ -85,16 +93,21 @@ router.get('/get/professionalpatient/:professionalid/:patientid', async (req, re
 	let params = [req.params.professionalid, req.params.patientid]
 	let select = "SELECT * from sessions WHERE professionalid=? and patientid=? ALLOW FILTERING;"
 
-	connection.execute(select,params,function(err, rows){
-		if(!!err){
-			console.log(err);
-			res.json(err);
-		} else {
-			let sessionList = rows['rows'];
-			sortSessionList(sessionList);
-			res.json(sessionList);
-		}
-	});
+	try {
+		connection.execute(select,params,function(err, rows){
+			if(!!err){
+				console.log("[ERRO] Erro ao recuperar Sessões: " + err);
+				res.status(500).send({ status: 0, message: "Não foi possível recuperar as Sessões", erro: err });
+			} else {
+				let sessionList = rows['rows'];
+				sortSessionList(sessionList);
+				res.send({ satus: 0, sessionList });
+			}
+		});
+	} catch(e) {
+		console.log("[ERRO] Erro ao recuperar Sessões: " + e.message);
+		res.status(500).send({ status: 0, message: "Não foi possível recuperar as Sessões", erro: e.message });
+	}
 });
 
 // Submit a post
@@ -122,19 +135,27 @@ router.post('/post', async (req, res) => {
 	let artindexpattern = req.body.artindexpattern;
 	let sessiondata = req.body.sessiondata;
 
+	if (!id) res.status(400).send({ status: 1, message: "Campo 'id' faltando na Sessão" });
+	if (!movementlabel) res.status(400).send({ status: 1, message: "Campo 'movementlabel' faltando na Sessão" });
+
 	let insertiondate = getFormattedDate()
 
 	let insert = "INSERT INTO sessions(id,title,device,description,professionalid,patientid,movementlabel,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,sessionduration,numberofregisters,artindexpattern,sessiondata,insertionDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,textAsBlob(?),?) IF NOT EXISTS";
 	let params = [id,title,device,description,professionalid,patientid,movementlabel,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,sessionduration,numberofregisters,artindexpattern,sessiondata,insertiondate];
-	
-	connection.execute(insert, params, { prepare: true }, function(err, rows) {
-		if(!!err){
-			console.log(err);
-			res.json(err);
-		} else {
-			res.json(rows['rows'][0]);
-		}
-	});
+
+	try {
+		connection.execute(insert, params, { prepare: true }, function(err, rows) {
+			if(!!err){
+				console.log("[ERRO] Erro ao inserir Sessão: " + err);
+				res.status(500).send({ status: 0, message: "Não foi possível inserir a Sessão", erro: err });
+			} else {
+				res.send({ satus: 0, uploaded: rows['rows'][0] });
+			}
+		});
+	} catch(e) {
+		console.log("[ERRO] Erro ao inserir Sessão: " + e.message);
+		res.status(500).send({ status: 0, message: "Não foi possível inserir a Sessão", erro: e.message });
+	}
 });
 
 // Update a specific Session
@@ -154,15 +175,20 @@ router.patch('/patch/movement/:id/:movementlabel/:insertiondate', async (req, re
 
 	let update = "UPDATE sessions SET description=?,maincomplaint=?,historyofcurrentdesease=?,historyofpastdesease=?,diagnosis=?,relateddeseases=?,medications=?,physicalevaluation=?,patientage=?,patientheight=?,patientweight=?,patientsessionnumber=? WHERE id=? AND movementlabel=? AND insertiondate=?";
 	let params = [description,maincomplaint,historyofcurrentdesease,historyofpastdesease,diagnosis,relateddeseases,medications,physicalevaluation,patientage,patientheight,patientweight,patientsessionnumber,req.params.id,req.params.movementlabel,req.params.insertiondate];
-		
-	connection.execute(update, params, { prepare: true }, function(err, rows){
-		if(!!err){
-			console.log(err);
-			res.json(err);
-		} else {
-			res.json(rows);
-		}
-	});
+	
+	try {
+		connection.execute(update, params, { prepare: true }, function(err, rows){
+			if(!!err){
+				console.log("[ERRO] Erro ao atualizar Sessão: " + err);
+				res.status(500).send({ status: 0, message: "Não foi possível atualizar a Sessão", erro: err });
+			} else {
+				res.send({ satus: 0, updated: rows });
+			}
+		});
+	} catch(e) {
+		console.log("[ERRO] Erro ao atualizar Sessão: " + e.message);
+		res.status(500).send({ status: 0, message: "Não foi possível atualizar a Sessão", erro: e.message });
+	}
 });
 
 // Delete a specific Session
@@ -171,19 +197,19 @@ router.delete('/delete/movement/:id/:movementlabel/:insertiondate', async (req, 
 	let movementlabel = req.params.movementlabel;
 	let insertiondate = req.params.insertiondate;
 	
-	if(!!id){
-		let delet = "DELETE FROM sessions WHERE id=? AND movementlabel=? AND insertiondate=?";
-		connection.execute(delet, [id, movementlabel, insertiondate], function(err, rows){
+	try {
+		let remove = "DELETE FROM sessions WHERE id=? AND movementlabel=? AND insertiondate=?";
+		connection.execute(remove, [id, movementlabel, insertiondate], function(err, rows){
 			if(!!err){
-				console.log(err);
-				res.json(err);
+				console.log("[ERRO] Erro ao deletar Sessão: " + err);
+				res.status(500).send({ status: 0, message: "Não foi possível deletar a Sessão", erro: err });
 			} else {
-				res.json(rows);
+				res.send({ satus: 0, deleted: rows });
 			}
 		});
-	} else {
-		console.log("Please, be sure to provide the id, the movementlabel and the insertiondate on your json");
-		res.json({"error": "Please, be sure to provide the id, the movementlabel and the insertiondate on your json"});	
+	} catch(e) {
+		console.log("[ERRO] Erro ao deletar Sessão: " + e.message);
+		res.status(500).send({ status: 0, message: "Não foi possível deletar a Sessão", erro: e.message });
 	}
 });
 
